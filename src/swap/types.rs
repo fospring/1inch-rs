@@ -182,7 +182,7 @@ pub struct SwapRequestError {
     pub request_id: String,
 
     /// Additional metadata related to the error, if any.
-    pub meta: Vec<HttpExceptionMeta>,
+    pub meta: Option<Vec<HttpExceptionMeta>>,
 }
 
 /// Represents additional metadata in the swap API error response.
