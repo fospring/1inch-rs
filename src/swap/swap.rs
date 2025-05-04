@@ -81,6 +81,7 @@ impl OneInchClient {
 
         /// Performs swap request with predefined parameters.
         pub async fn swap_v6(&self, details: SwapDetailsV6) -> Result<SwapV6Response, Box<dyn Error>> {
+            tracing::info!("start oninch swap v6 with tails: {:?}", details);
             let url = format!("{}/swap/{}/{}/swap/", BASIC_URL, SWAP_V6_API_VERSION, self.network_id);
     
             // Adding required parameters
@@ -142,10 +143,16 @@ impl OneInchClient {
                 return Err(SwapError::Other(format!("Server responded with error: {}", response.status())).into());
             }
     
-            let swap_data: SwapV6Response = match response.json().await {
+            let text = response.text().await;
+            tracing::info!("response info: {:?}", text);
+            let swap_data: SwapV6Response = match serde_json::from_str(&text?) {
                 Ok(data) => data,
-                Err(e) => return Err(SwapError::Network(e).into()),
-            };
+                Err(e) => return Err(SwapError::JsonParse(e).into()),
+            };            
+            // let swap_data: SwapV6Response = match response.json().await {
+            //     Ok(data) => data,
+            //     Err(e) => return Err(SwapError::Network(e).into()),
+            // };
     
             Ok(swap_data)
         }
