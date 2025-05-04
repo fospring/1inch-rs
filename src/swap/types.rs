@@ -501,7 +501,6 @@ impl SwapDetailsV6Builder {
     builder_setter!(allow_partial_fill, bool);
     builder_setter!(use_permit2, bool);
 
-
     /// Special setter for fee that ensures value is within allowable range.
     pub fn fee(mut self, fee: u8) -> Result<Self, QuoteDetailsBuilderError> {
         if fee > 3 {
@@ -511,7 +510,7 @@ impl SwapDetailsV6Builder {
         Ok(self)
     }
 
-        /// Special setter for slippage that ensures value is within allowable
+    /// Special setter for slippage that ensures value is within allowable
     /// range.
     pub fn slippage(mut self, slippage: usize) -> Result<Self, SwapDetailsBuilderError> {
         if slippage > 50 {
@@ -521,7 +520,7 @@ impl SwapDetailsV6Builder {
         Ok(self)
     }
 
-        /// Attempts to construct a ['SwapDetails'](crate::swap::types::SwapDetailsV6Builder)
+    /// Attempts to construct a ['SwapDetails'](crate::swap::types::SwapDetailsV6Builder)
     /// from the builder, returning errors if required fields are missing or if
     /// some of values are incorrect.
     pub fn build(self) -> Result<SwapDetailsV6, SwapDetailsBuilderError> {
